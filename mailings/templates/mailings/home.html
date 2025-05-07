@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Панель управления рассылками{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1>Статистика рассылок</h1>
+  <div class="row">
+    <!-- Карточки с основными метриками -->
+    <div class="col-md-3">
+      <div class="card text-white bg-primary mb-3">
+        <div class="card-header">Всего рассылок</div>
+        <div class="card-body">
+          <h2 class="card-title">{{ total_mailings }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success mb-3">
+        <div class="card-header">Запущено</div>
+        <div class="card-body">
+          <h2 class="card-title">{{ running_mailings }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning mb-3">
+        <div class="card-header">Приостановлено</div>
+        <div class="card-body">
+          <h2 class="card-title">{{ paused_mailings }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-dark mb-3">
+        <div class="card-header">Завершено</div>
+        <div class="card-body">
+          <h2 class="card-title">{{ finished_mailings }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Клиенты</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-3">
+        <div class="card-header">Всего клиентов</div>
+        <div class="card-body">
+          <h3>{{ total_clients }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-3">
+        <div class="card-header">Уникальных e-mail</div>
+        <div class="card-body">
+          <h3>{{ unique_clients }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Последние 5 рассылок</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Название</th>
+        <th>Статус</th>
+        <th>Создана</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in recent_mailings %}
+      <tr>
+        <td>{{ m.name }}</td>
+        <td>{{ m.get_status_display }}</td>
+        <td>{{ m.created_at|date:"d.m.Y H:i" }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="3">Рассылок пока нет</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

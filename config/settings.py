@@ -31,14 +31,16 @@ DATABASES = {
 }
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'ashoshura@yandex.ru'
-EMAIL_HOST_PASSWORD = 'qbcvaqnzrgbvykfi'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = False
+# EMAIL_USE_SSL = True
+# EMAIL_HOST_USER = 'ashoshura@yandex.ru'
+# EMAIL_HOST_PASSWORD = ''
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 ALLOWED_HOSTS = ["*"]
 
 
@@ -71,7 +73,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -87,16 +89,16 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": os.getenv("NAME"),
-#         "USER": os.getenv("USER"),
-#         "PASSWORD": os.getenv("PASSWORD"),
-#         "HOST": os.getenv("HOST"),
-#         "PORT": os.getenv("PORT"),
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": os.getenv("NAME"),
+        "USER": os.getenv("USER"),
+        "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
+    }
+}
 
 
 
