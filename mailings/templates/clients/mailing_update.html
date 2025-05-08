@@ -6,6 +6,6 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Обновить</button>
-    <a href="{% url 'clients:list' %}" class="btn btn-link">Назад к списку</a>
+    <a href="{% url 'mailings:mailing_list' %}" class="btn btn-link">Назад к списку</a>
   </form>
 {% endblock %}

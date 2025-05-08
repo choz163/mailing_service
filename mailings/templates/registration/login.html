@@ -7,5 +7,5 @@
     <button type="submit" class="btn btn-primary">Войти</button>
   </form>
   <p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
-  <p>Нет аккаунта? <a href="{% url 'signup' %}">Зарегистрироваться</a></p>
+  <p>Нет аккаунта? <a href="{% url 'mailings:signup' %}">Зарегистрироваться</a></p>
 {% endblock %}

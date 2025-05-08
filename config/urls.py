@@ -7,7 +7,7 @@ path('admin/', admin.site.urls),
 
 path('accounts/', include('django.contrib.auth.urls')),
 
-path('', include('mailings.urls')),
+path('', include('mailings.urls', namespace='mailings')),
 
 path('users/', include('users.urls')),
 

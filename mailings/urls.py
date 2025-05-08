@@ -1,25 +1,26 @@
+from django.views.decorators.cache import cache_page
 from django.urls import path, reverse_lazy
-from .views import ClientList, ClientCreate, ClientUpdate, ClientDelete, HomeView, mailing_send_now, SignUpView, \
+from .views import MailingListView, MailingCreateView, MailingUpdateView, MailingDeleteView, HomeView, mailing_send_now, SignUpView, \
     ActivateAccount, MailingAttemptListView, MailingDetailView
 from django.contrib.auth import views as auth_views
 
-app_name = 'clients'
+app_name = 'mailings'
 
 urlpatterns = [
-    path('', ClientList.as_view(),   name='list'),
-    path('add/', ClientCreate.as_view(), name='create'),
-    path('<int:pk>/edit/', ClientUpdate.as_view(), name='update'),
-    path('<int:pk>/delete/', ClientDelete.as_view(), name='delete'),
+    path('mailings/', MailingListView.as_view(), name='mailing_list'),
+    path('mailings/add/', MailingCreateView.as_view(), name='mailing_add'),
+    path('mailings/<int:pk>/', MailingDetailView.as_view(), name='mailing_detail'),
+    path('mailings/<int:pk>/edit/', MailingUpdateView.as_view(), name='mailing_update'),
+    path('mailings/<int:pk>/delete/', MailingDeleteView.as_view(), name='mailing_delete'),
 
-    path('', HomeView.as_view(), name='mailing_home'),
-    path('mailing/<int:pk>/', MailingDetailView.as_view(), name='mailing_detail'),
-    path('mailing/<int:pk>/send/', mailing_send_now, name='mailing_send_now'),
+    path('', cache_page(60)(HomeView.as_view()), name='mailing_home'),
+    path('mailings/<int:pk>/', MailingDetailView.as_view(), name='mailing_detail'),
+    path('mailings/<int:pk>/send/', mailing_send_now, name='mailing_send_now'),
     path('attempts/', MailingAttemptListView.as_view(), name='mailingattempt_list'),
 
-    path('', HomeView.as_view(), name='mailing_home'),
 
     path('signup/', SignUpView.as_view(), name='signup'),
-    path('activate/<uidb64>/<token>/', ActivateAccount.as_view(), name='activate'),
+    path('mailings/<uidb64>/<token>/', ActivateAccount.as_view(), name='activate'),
 
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),

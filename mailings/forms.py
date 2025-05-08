@@ -1,25 +1,32 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
-class SignUpForm(UserCreationForm):
-    email = forms.EmailField(label='E-mail', required=True)
+User = get_user_model()
+
+class SignUpForm(forms.ModelForm):
+    password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Повтор пароля", widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('email', 'password1', 'password2')
+        fields = ("email", "username")
 
     def clean_email(self):
-        email = self.cleaned_data['email'].lower()
+        email = self.cleaned_data["email"]
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Пользователь с таким e-mail уже существует.")
+            raise ValidationError("Пользователь с таким e-mail уже зарегистрирован")
         return email
+
+    def clean(self):
+        cleaned = super().clean()
+        if cleaned.get("password1") != cleaned.get("password2"):
+            raise ValidationError("Пароли не совпадают")
+        return cleaned
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.username = self.cleaned_data['email']
-        user.email = self.cleaned_data['email']
-        user.is_active = False  # блокируем до подтверждения
+        user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
         return user

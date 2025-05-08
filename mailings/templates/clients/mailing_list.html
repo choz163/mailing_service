@@ -3,7 +3,7 @@
 {% block content %}
   <h1>Список клиентов</h1>
   <p>
-    <a href="{% url 'clients:create' %}" class="btn btn-primary">Создать клиента</a>
+    <a href="{% url 'mailings:mailing_create' %}" class="btn btn-primary">Создать клиента</a>
   </p>
   <table class="table">
     <thead>
@@ -21,8 +21,8 @@
           <td>{{ client.full_name }}</td>
           <td>{{ client.comment }}</td>
           <td>
-            <a href="{% url 'clients:update' client.pk %}" class="btn btn-sm btn-secondary">Редактировать</a>
-            <a href="{% url 'clients:delete' client.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+            <a href="{% url 'mailings:mailing_update' client.pk %}" class="btn btn-sm btn-secondary">Редактировать</a>
+            <a href="{% url 'mailings:mailing_delete' client.pk %}" class="btn btn-sm btn-danger">Удалить</a>
           </td>
         </tr>
       {% empty %}

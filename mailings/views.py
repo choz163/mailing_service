@@ -2,10 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.management import call_command
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.urls import reverse_lazy
 from .models import Client, Mailing, MailingAttempt
-from django.contrib.auth import login
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -19,7 +17,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 
 
-class ClientList(ListView):
+User = get_user_model()
+
+
+class MailingListView(LoginRequiredMixin, ListView):
     model = Client
 
     def get_queryset(self):
@@ -28,7 +29,7 @@ class ClientList(ListView):
             return qs
         return qs.filter(owner=self.request.user)
 
-class ClientCreate(CreateView):
+class MailingCreateView(LoginRequiredMixin,CreateView):
     model = Client
     fields = ['email', 'full_name', 'comment']
     success_url = reverse_lazy('clients:list')
@@ -37,7 +38,7 @@ class ClientCreate(CreateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
-class ClientUpdate(UpdateView):
+class MailingUpdateView(LoginRequiredMixin,UpdateView):
     model = Client
     fields = ['email', 'full_name', 'comment']
     success_url = reverse_lazy('clients:list')
@@ -52,7 +53,7 @@ class ClientUpdate(UpdateView):
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
-class ClientDelete(DeleteView):
+class MailingDeleteView(LoginRequiredMixin,DeleteView):
     model = Client
     success_url = reverse_lazy('clients:list')
 

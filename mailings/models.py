@@ -4,7 +4,7 @@ from django.conf import settings
 
 
 class Client(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=255)
     comment = models.TextField(blank=True)
@@ -49,8 +49,14 @@ class Mailing(models.Model):
 
 class MailingAttempt(models.Model):
     mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, related_name='attempts')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     tried_at = models.DateTimeField(auto_now_add=True)
     STATUS = [('SUCCESS', 'Успешно'), ('FAIL', 'Не успешно')]
     status = models.CharField(max_length=7, choices=STATUS)
     server_response = models.TextField(blank=True)
 
+
+    class Meta:
+        permissions = [
+            ('view_all_mailingattempt', 'Can view all mailing attempts'),
+        ]
