@@ -1,31 +1,32 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-print(os.environ.get('DATABASE_URL'))
+
+print(os.environ.get("DATABASE_URL"))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv(BASE_DIR / '.env')
+load_dotenv(BASE_DIR / ".env")
 
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv("DEBUG") == "True"
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
     }
 }
 
-LOGIN_URL = 'mailings:login'
-LOGIN_REDIRECT_URL = 'mailings:mailing_home'
-LOGOUT_REDIRECT_URL = 'mailings:login'
+LOGIN_URL = "mailings:login"
+LOGIN_REDIRECT_URL = "mailings:mailing_home"
+LOGOUT_REDIRECT_URL = "mailings:login"
 
 
 DATABASES = {
@@ -40,13 +41,13 @@ DATABASES = {
 }
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.yandex.ru"
 EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'ashoshura@yandex.ru'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = "ashoshura@yandex.ru"
+EMAIL_HOST_PASSWORD = ""
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -61,7 +62,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "mailings",
 ]
 
@@ -82,7 +82,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -95,8 +95,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -115,8 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -126,10 +122,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-
-
 STATIC_URL = "static/"
-
 
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
