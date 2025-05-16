@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Отчёты по попыткам рассылок{% endblock %}
+{% block content %}
+  <h1>Отчёты по попыткам</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Рассылка</th>
+        <th>Клиент</th>
+        <th>Статус</th>
+        <th>Когда</th>
+        <th>Ответ сервера</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for a in attempts %}
+      <tr>
+        <td><a href="{% url 'mailing_detail' a.mailing.pk %}">{{ a.mailing.name }}</a></td>
+        <td>{{ a.client.email }}</td>
+        <td>
+          {% if a.status == 'SUCCESS' %}
+            <span class="text-success">Успех</span>
+          {% else %}
+            <span class="text-danger">Ошибка</span>
+          {% endif %}
+        </td>
+        <td>{{ a.created_at|date:"d.m.Y H:i" }}</td>
+        <td>
+          {% if a.server_response %}
+            <a tabindex="0" data-bs-toggle="popover" 
+               data-bs-content="{{ a.server_response|truncatechars:200 }}">
+               Посмотреть
+            </a>
+          {% else %}
+            —
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5">Нет ни одной попытки</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% if is_paginated %}
+    <nav>
+      <ul class="pagination">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link"
+            href="?page={{ page_obj.previous_page_number }}">«</a></li>
+        {% endif %}
+        <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link"
+            href="?page={{ page_obj.next_page_number }}">»</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endblock %}

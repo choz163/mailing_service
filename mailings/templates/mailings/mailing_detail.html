@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Рассылка: {{ mailing.name }}</h1>
+  <p>Статус: {{ mailing.status }}</p>
+  <form method="post" action="{% url 'mailing_send_now' mailing.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary"
+            {% if mailing.status == 'RUNNING' %}disabled{% endif %}>
+      Отправить сейчас
+    </button>
+  </form>
+  <a href="{% url 'mailingattempt_list' %}">Отчёты по попыткам</a>
+{% endblock %}

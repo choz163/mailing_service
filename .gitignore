@@ -19,6 +19,7 @@ catalog/product_images
 .eggs/
 lib/
 .idea
+.idea/workspace.xml
 lib64/
 img/
 img
